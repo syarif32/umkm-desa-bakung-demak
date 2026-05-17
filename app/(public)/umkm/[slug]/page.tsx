@@ -11,7 +11,7 @@ import type { SocialLinks, OperatingHours, GeoCoordinates } from '@/types/databa
 import { CATEGORY_LABELS } from '@/lib/constants/categories';
 import { 
   MapPinIcon, PhoneIcon, ClockIcon, ArrowLeftIcon, 
-  ShoppingBagIcon, InfoIcon, ShieldCheckIcon, LayoutGridIcon 
+  ShoppingBagIcon, InfoIcon, ShieldCheckIcon, LayoutGridIcon , StoreIcon , NavigationIcon
 } from 'lucide-react';
 
 interface PageProps {
