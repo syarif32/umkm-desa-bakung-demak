@@ -110,13 +110,13 @@ export default async function UmkmTenantPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* KONTEN UTAMA (Kiri: Produk & Info, Kanan: Sidebar Sticky) */}
+     
       <section className="container max-w-6xl mx-auto px-4 mt-8 md:mt-12 flex flex-col lg:flex-row gap-8 items-start">
         
-        {/* KOLOM KIRI (70%) */}
+        
         <div className="w-full lg:w-[65%] space-y-8">
           
-          {/* Box Deskripsi */}
+     
           {tenant.description && (
             <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2 font-display">
@@ -126,39 +126,86 @@ export default async function UmkmTenantPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Box Produk */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2 font-display">
-                <ShoppingBagIcon className="w-6 h-6 text-amber-500" /> Etalase Produk
+        
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 font-display flex items-center gap-3">
+                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+                  <ShoppingBagIcon className="w-5 h-5" />
+                </div>
+                Etalase Produk
               </h2>
-              <span className="text-sm font-semibold bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{tenant.product_count} Item</span>
+              <span className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold uppercase tracking-wider rounded-full shadow-inner">
+                {(tenant.umkm_products || []).length} Item
+              </span>
             </div>
-            
+
             {hasProducts ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {(tenant.umkm_products || []).map((product: any) => (
-                  <ProductCard key={product.id} product={product} />
+                  <div key={product.id} className="group bg-white border border-gray-200/80 rounded-2xl overflow-hidden hover:shadow-xl hover:border-amber-200 transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
+                    
+              
+                   <div className="relative aspect-square w-full bg-gray-50 overflow-hidden border-b border-gray-100">
+                      {product.image_url ? (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                          <ShoppingBagIcon className="w-12 h-12" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Info Produk */}
+                    <div className="p-5 flex-1 flex flex-col">
+                      <h3 className="font-bold text-gray-900 line-clamp-1 mb-1 group-hover:text-amber-600 transition-colors text-base">
+                        {product.name}
+                      </h3>
+                      
+                   
+                      <div className="flex items-end gap-1.5 mb-3">
+                        <span className="text-lg font-bold text-amber-600">
+                          {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(product.price)}
+                        </span>
+                        {product.unit && (
+                          <span className="text-xs text-gray-500 font-medium mb-1">/ {product.unit}</span>
+                        )}
+                      </div>
+
+                      {/* Deskripsi Singkat */}
+                      <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-1">
+                        {product.description || 'Deskripsi produk tidak tersedia.'}
+                      </p>
+
+                      {/* Kategori/Tag */}
+                      <div className="pt-4 border-t border-gray-100/80 mt-auto">
+                        <span className="inline-block px-3 py-1 bg-gray-50 border border-gray-200 text-gray-600 text-[10px] font-bold uppercase tracking-wider rounded-lg">
+                          {product.category || 'UMKM Bakung'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="py-16 text-center">
-                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100">
-                  <ShoppingBagIcon className="w-10 h-10 text-gray-300" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-800">Katalog Kosong</h3>
-                <p className="text-sm text-gray-500 mt-1">Penjual belum mengunggah produk atau menu ke dalam etalase ini.</p>
+              <div className="text-center py-16 bg-gray-50/50 rounded-2xl border-2 border-dashed border-gray-200">
+                <ShoppingBagIcon className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 font-medium text-sm">Pemilik toko belum menambahkan produk ke etalase ini.</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* KOLOM KANAN (35% - Sticky Sidebar) */}
+        
         <div className="w-full lg:w-[35%]">
           <div className="sticky top-24 space-y-6">
             <TenantContactBlock ownerName={tenant.owner_name} phone={tenant.phone_number} whatsapp={tenant.whatsapp_number} email={tenant.email} socialLinks={socialLinks} />
             
-           {/* JAM OPERASIONAL - RENDER LANGSUNG BERSURAT AMAN */}
+      
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2 text-lg font-display">
               <ClockIcon className="w-5 h-5 text-amber-500" /> Jam Operasional
@@ -194,7 +241,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
             )}
           </div>
 
-           {/* BLOK PETA LOKASI (BARU) */}
+         
             {coordinates && coordinates.lat && coordinates.lng && (
               <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
                 <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2 text-lg font-display">
