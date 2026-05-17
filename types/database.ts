@@ -1,4 +1,4 @@
-// Tambahkan 3 definisi ini di paling bawah file types/database.ts
+
 export type UserRole = 'VILLAGE_ADMIN' | 'UMKM_OWNER';
 
 export type UmkmStatus = 'ACTIVE' | 'INACTIVE' | 'PENDING_REVIEW';
@@ -36,3 +36,45 @@ export type GeoCoordinates = {
   lat: number;
   lng: number;
 };
+
+export interface UmkmProduct {
+  id: string;
+  tenant_id: string;
+  name: string;
+  description?: string | null;
+  price?: number | null;
+  price_unit?: string | null;
+  category?: string;
+  status?: string;
+  thumbnail_url?: string | null;
+  tags?: string[] | null;
+  [key: string]: any; // Mengizinkan field tambahan tanpa error
+}
+
+export interface UmkmTenant {
+  id: string;
+  slug: string;
+  business_name: string;
+  owner_name: string;
+  category: string;
+  status: string;
+  tagline?: string | null;
+  description?: string | null;
+  whatsapp_number?: string | null;
+  phone_number?: string | null;
+  email?: string | null;
+  address?: string | null;
+  rt_rw?: string | null;
+  logo_url?: string | null;
+  cover_image_url?: string | null;
+  coordinates?: any;
+  social_links?: any;
+  operating_hours?: any;
+  product_count?: number;
+  umkm_products?: UmkmProduct[] | any[];
+  [key: string]: any; // Mengizinkan field tambahan tanpa error
+}
+
+// Mencegah error di file product.ts
+export type ProductInsert = Partial<UmkmProduct> & { [key: string]: any };
+export type ProductUpdate = Partial<UmkmProduct> & { [key: string]: any };
