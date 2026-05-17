@@ -72,12 +72,21 @@ export interface UmkmTenant {
   operating_hours?: any;
   product_count?: number;
   umkm_products?: UmkmProduct[] | any[];
-  [key: string]: any; // Mengizinkan field tambahan tanpa error
+  [key: string]: any; 
 }
 
+export interface VillageInfo {
+  id?: string;
+  name?: string;
+  description?: string | null;
+  logo_url?: string | null;
+  [key: string]: any; 
+}
 // Mencegah error di file product.ts
 export type ProductInsert = Partial<UmkmProduct> & { [key: string]: any };
 export type ProductUpdate = Partial<UmkmProduct> & { [key: string]: any };
 // Mencegah error di file tenant.ts
 export type TenantInsert = Partial<UmkmTenant> & { [key: string]: any };
 export type TenantUpdate = Partial<UmkmTenant> & { [key: string]: any };
+export type TenantWithProducts = UmkmTenant;
+export type TenantWithOwner = UmkmTenant;

@@ -20,7 +20,7 @@ export async function PublicNavbar() {
           {villageInfo?.logo_url ? (
             <Image
               src={villageInfo.logo_url}
-              alt={villageInfo.name}
+             alt={villageInfo.name || 'Logo Desa Bakung'}
               width={36}
               height={36}
               className="rounded-lg"

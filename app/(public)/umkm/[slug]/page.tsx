@@ -34,7 +34,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
     const coordinates  = (tenant.coordinates    ?? null) as GeoCoordinates | null;
   const socialLinks  = (tenant.social_links   ?? {}) as SocialLinks;
   const hours        = (tenant.operating_hours ?? {}) as OperatingHours;
-  const hasProducts  = tenant.umkm_products.length > 0;
+  const hasProducts = (tenant.umkm_products || []).length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20">
@@ -137,7 +137,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
             
             {hasProducts ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {tenant.umkm_products.map((product : any) => (
+                {(tenant.umkm_products || []).map((product: any) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
