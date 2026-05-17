@@ -51,7 +51,7 @@ export default async function UmkmListPage() {
                 </span>
               </div>
               <h3 className="font-bold text-gray-900 text-lg line-clamp-1">{tenant.business_name}</h3>
-              <p className="text-sm text-gray-500 mt-1 mb-4">{CATEGORY_LABELS[tenant.category] ?? tenant.category} • Pemilik: {tenant.owner_name}</p>
+              <p className="text-sm text-gray-500 mt-1 mb-4">{CATEGORY_LABELS[tenant.category as keyof typeof CATEGORY_LABELS] ?? tenant.category} • Pemilik: {tenant.owner_name}</p>
             </div>
             
             {/* AREA TOMBOL AKSI */}
