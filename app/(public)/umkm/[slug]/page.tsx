@@ -58,7 +58,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
       </section>
 
-      {/* PROFIL CARD MELAYANG (Floating Header) */}
+      {/* (Floating Header) */}
       <section className="container max-w-6xl mx-auto px-4">
         <div className="relative -mt-24 md:-mt-32 z-10 bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-gray-200/50 border border-gray-100 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
           
@@ -137,7 +137,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
             
             {hasProducts ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {tenant.umkm_products.map((product) => (
+                {tenant.umkm_products.map((product : any) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
