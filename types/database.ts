@@ -78,3 +78,6 @@ export interface UmkmTenant {
 // Mencegah error di file product.ts
 export type ProductInsert = Partial<UmkmProduct> & { [key: string]: any };
 export type ProductUpdate = Partial<UmkmProduct> & { [key: string]: any };
+// Mencegah error di file tenant.ts
+export type TenantInsert = Partial<UmkmTenant> & { [key: string]: any };
+export type TenantUpdate = Partial<UmkmTenant> & { [key: string]: any };
