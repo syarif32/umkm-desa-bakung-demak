@@ -56,16 +56,21 @@ export default async function UmkmListPage() {
             
             {/* AREA TOMBOL AKSI */}
             <div className="border-t border-gray-100 p-3 bg-gray-50 flex gap-2 flex-wrap">
-              {/* Jika status Pending dan yang melihat adalah Admin, munculkan tombol Approve/Reject */}
               {isAdmin && tenant.status === 'PENDING_REVIEW' ? (
                 <>
-                  <form action={approveTenant} className="flex-1">
+                  <form action={async (formData: FormData) => {
+                    'use server';
+                    await approveTenant(formData);
+                  }} className="flex-1">
                     <input type="hidden" name="tenantId" value={tenant.id} />
                     <Button type="submit" size="sm" className="w-full bg-green-500 hover:bg-green-600 text-white rounded-lg">
                       <CheckCircleIcon className="w-4 h-4 mr-1" /> Setujui
                     </Button>
                   </form>
-                  <form action={rejectTenant} className="flex-1">
+                  <form action={async (formData: FormData) => {
+                    'use server';
+                    await rejectTenant(formData);
+                  }} className="flex-1">
                     <input type="hidden" name="tenantId" value={tenant.id} />
                     <Button type="submit" size="sm" variant="outline" className="w-full border-red-200 text-red-600 hover:bg-red-50 rounded-lg">
                       <XCircleIcon className="w-4 h-4 mr-1" /> Tolak
@@ -73,7 +78,7 @@ export default async function UmkmListPage() {
                   </form>
                 </>
               ) : (
-                // Jika sudah aktif atau yang melihat adalah pemilik UMKM biasa
+              
                 <>
                   <Button asChild variant="outline" size="sm" className="flex-1 rounded-lg border-gray-300 text-gray-700 hover:bg-white">
                     <Link href={`/dashboard/umkm/${tenant.id}`}>Kelola Toko</Link>
