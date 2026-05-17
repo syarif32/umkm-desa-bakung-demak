@@ -25,8 +25,8 @@ export function UmkmCard({ tenant }: { tenant: UmkmTenant }) {
         )}
         <div className="absolute top-2 right-2">
           <Badge className="bg-amber-500/90 text-white border-none backdrop-blur-sm">
-            {CATEGORY_LABELS[tenant.category] || tenant.category}
-          </Badge>
+            {CATEGORY_LABELS[tenant.category as keyof typeof CATEGORY_LABELS] ?? tenant.category}
+          </Badge> 
         </div>
         
         {/* Logo UMKM */}
