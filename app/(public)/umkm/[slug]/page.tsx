@@ -79,7 +79,7 @@ export default async function UmkmTenantPage({ params }: PageProps) {
           <div className="flex-1 space-y-2">
             <div className="flex flex-wrap items-center gap-2 mb-1">
               <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-200 border-none text-xs font-bold uppercase px-3 py-1">
-                {CATEGORY_LABELS[tenant.category] ?? tenant.category}
+                {CATEGORY_LABELS[tenant.category as keyof typeof CATEGORY_LABELS] ?? tenant.category}
               </Badge>
               <Badge className="bg-green-100 text-green-700 border-none text-xs font-bold px-2 py-1 flex items-center gap-1">
                 <ShieldCheckIcon className="w-3 h-3" /> Terverifikasi Desa
