@@ -20,7 +20,7 @@ export function EditProductForm({ tenantId, product }: EditProductFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(product.thumbnail_url || '');
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(product.thumbnail_url ?? null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

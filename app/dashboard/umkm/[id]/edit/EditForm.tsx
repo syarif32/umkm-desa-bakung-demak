@@ -14,9 +14,8 @@ import { toast } from 'sonner';
 export function EditForm({ tenant }: { tenant: UmkmTenant }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
-  
-  const [logoUrl, setLogoUrl] = useState<string | null>(tenant.logo_url);
-  const [coverUrl, setCoverUrl] = useState<string | null>(tenant.cover_image_url);
+  const [logoUrl, setLogoUrl] = useState<string | null>(tenant.logo_url ?? null);
+const [coverUrl, setCoverUrl] = useState<string | null>(tenant.cover_image_url ?? null);
 
   // Parsing data lama
   const coords = tenant.coordinates as any;
