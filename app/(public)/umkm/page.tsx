@@ -1,9 +1,16 @@
 import { getActiveTenants } from '@/lib/queries/tenants';
 import { UmkmCard } from '@/components/public/UmkmCard';
-import { ShoppingBagIcon, SparklesIcon, ArrowRightIcon } from 'lucide-react';
+import {
+  ShoppingBagIcon,
+  SparklesIcon,
+  ArrowRightIcon,
+  StoreIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 
-export const metadata = { title: 'Katalog Produk & UMKM — Portal Desa Bakung' };
+export const metadata = {
+  title: 'Katalog Produk & UMKM — Portal Desa Bakung',
+};
 
 const CATEGORIES = [
   { id: 'ALL', label: 'Semua Kategori' },
@@ -21,99 +28,194 @@ export default async function PublicUmkmDirectoryPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
- 
   const resolvedParams = await searchParams;
-  const activeCategory = (resolvedParams.category as string) || 'ALL';
+
+  const activeCategory =
+    (resolvedParams.category as string) || 'ALL';
 
   const allTenants = await getActiveTenants();
 
-
-  const filteredTenants = activeCategory === 'ALL'
-    ? allTenants
-    : allTenants.filter((tenant) => tenant.category === activeCategory);
+  const filteredTenants =
+    activeCategory === 'ALL'
+      ? allTenants
+      : allTenants.filter(
+          (tenant) => tenant.category === activeCategory
+        );
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-24">
-      
-      <section className="bg-white border-b border-gray-200/80 pt-16 pb-20 relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-50/50 via-white to-gray-50 pb-24">
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-5xl opacity-30 pointer-events-none">
-          <div className="absolute top-[-20%] left-[-10%] w-[40%] h-[60%] rounded-full bg-amber-400/20 blur-3xl"></div>
-          <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[50%] rounded-full bg-emerald-400/10 blur-3xl"></div>
-        </div>
+      {/* BACKGROUND BLUR */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-amber-300/20 blur-[120px] rounded-full -z-10" />
 
-        <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 text-amber-700 text-xs font-bold tracking-widest uppercase border border-amber-200/50 mb-2">
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-300/20 blur-[120px] rounded-full -z-10" />
+
+      {/* HERO */}
+      <section className="relative pt-40 pb-24 overflow-hidden">
+
+        <div className="container mx-auto px-4 max-w-5xl relative z-10 text-center">
+
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/80 backdrop-blur-md border border-amber-100 text-amber-700 text-xs font-bold uppercase tracking-widest shadow-sm mb-8">
             <SparklesIcon className="w-4 h-4" />
-            Bangga Buatan Desa Bakung
+            Bangga Produk Lokal Desa
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 font-display tracking-tight leading-tight">
-            Katalog Digital <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700">
-              UMKM Potensial
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 font-display tracking-tight leading-[1.05]">
+
+            Katalog Digital{' '}
+
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">
+              UMKM Desa
             </span>
+
           </h1>
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-            Jelajahi karya otentik, hasil bumi segar, dan layanan profesional langsung dari tangan masyarakat asli Desa Bakung. Dukung ekonomi lokal sekarang!
+
+          <p className="mt-8 text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            Temukan berbagai produk unggulan,
+            hasil karya kreatif warga,
+            hingga layanan profesional langsung dari masyarakat Desa Bakung.
           </p>
+
+          {/* STATS */}
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
+
+            <div className="px-5 py-3 rounded-2xl bg-white/80 backdrop-blur-md border border-white shadow-sm">
+              <span className="text-sm text-gray-500">
+                Total UMKM
+              </span>
+
+              <p className="text-2xl font-black text-gray-900">
+                {allTenants.length}
+              </p>
+            </div>
+
+            <div className="px-5 py-3 rounded-2xl bg-white/80 backdrop-blur-md border border-white shadow-sm">
+              <span className="text-sm text-gray-500">
+                Kategori
+              </span>
+
+              <p className="text-2xl font-black text-gray-900">
+                {CATEGORIES.length - 1}
+              </p>
+            </div>
+
+          </div>
         </div>
       </section>
 
-    
-      <section className="container mx-auto px-4 max-w-7xl -mt-8 relative z-20">
-     
-        <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-2 rounded-3xl shadow-sm mb-12 mx-auto max-w-fit flex overflow-x-auto hide-scrollbar snap-x relative z-30">
-          <div className="flex gap-2">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.id}
-                href={cat.id === 'ALL' ? '/umkm' : `/umkm?category=${cat.id}`}
-                className={`whitespace-nowrap px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300 snap-center ${
-                  activeCategory === cat.id
-                    ? 'bg-amber-500 text-white shadow-md shadow-amber-500/25'
-                    : 'bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                {cat.label}
-              </Link>
-            ))}
+      {/* CONTENT */}
+      <section className="container mx-auto px-4 max-w-7xl relative z-20">
+
+        {/* FILTER */}
+        <div className="sticky top-24 z-30 mb-14">
+
+          <div className="bg-white/70 backdrop-blur-2xl border border-white shadow-xl rounded-[28px] p-3 max-w-fit mx-auto overflow-x-auto hide-scrollbar">
+
+            <div className="flex gap-3">
+
+              {CATEGORIES.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={
+                    cat.id === 'ALL'
+                      ? '/umkm'
+                      : `/umkm?category=${cat.id}`
+                  }
+                  className={`
+                    whitespace-nowrap
+                    px-5 py-3
+                    rounded-2xl
+                    text-sm font-bold
+                    transition-all duration-300
+                    ${
+                      activeCategory === cat.id
+                        ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-300/40 scale-105'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    }
+                  `}
+                >
+                  {cat.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* GRID DAFTAR UMKM */}
+        {/* GRID */}
         {filteredTenants.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 animate-in fade-in slide-in-from-bottom-8 duration-700">
+
             {filteredTenants.map((tenant) => (
-              <UmkmCard key={tenant.id} tenant={tenant} />
+              <UmkmCard
+                key={tenant.id}
+                tenant={tenant}
+              />
             ))}
+
           </div>
         ) : (
-          /* EMPTY STATE MODERN */
-          <div className="text-center py-24 bg-white/50 backdrop-blur-sm rounded-[2.5rem] border-2 border-dashed border-gray-200 max-w-2xl mx-auto p-8 shadow-sm">
-            <div className="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-              <ShoppingBagIcon className="w-10 h-10 text-gray-300" />
+          <div className="max-w-2xl mx-auto">
+
+            <div className="bg-white/70 backdrop-blur-2xl border border-dashed border-gray-200 rounded-[40px] p-12 text-center shadow-xl">
+
+              <div className="w-24 h-24 rounded-[28px] bg-gray-50 shadow-inner flex items-center justify-center mx-auto mb-8">
+
+                <ShoppingBagIcon className="w-12 h-12 text-gray-300" />
+
+              </div>
+
+              <h3 className="text-3xl font-black text-gray-900 font-display mb-3">
+                Belum Ada UMKM
+              </h3>
+
+              <p className="text-gray-500 leading-relaxed max-w-md mx-auto mb-8">
+                {activeCategory === 'ALL'
+                  ? 'Data UMKM sedang dalam proses verifikasi dan pendataan oleh tim pengelola desa.'
+                  : 'Kategori ini belum memiliki UMKM yang terdaftar secara resmi.'}
+              </p>
+
+              {activeCategory !== 'ALL' && (
+                <Link
+                  href="/umkm"
+                  className="
+                    inline-flex items-center gap-2
+                    px-6 py-3
+                    rounded-2xl
+                    bg-gradient-to-r from-gray-900 to-gray-800
+                    hover:from-black hover:to-gray-900
+                    text-white font-bold text-sm
+                    shadow-xl
+                    transition-all duration-300
+                    hover:-translate-y-1
+                  "
+                >
+                  <StoreIcon className="w-4 h-4" />
+
+                  Lihat Semua Kategori
+
+                  <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+              )}
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 font-display mb-2">Belum Ada Usaha</h3>
-            <p className="text-gray-500 mb-8 max-w-md mx-auto">
-              {activeCategory === 'ALL' 
-                ? 'Data pelaku UMKM saat ini sedang dalam proses pendataan dan peninjauan dokumen administrasi.' 
-                : `Sayang sekali, belum ada UMKM yang terdaftar secara resmi untuk kategori ini.`}
-            </p>
-            {activeCategory !== 'ALL' && (
-              <Link 
-                href="/umkm" 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-bold rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
-              >
-                Lihat Semua Kategori <ArrowRightIcon className="w-4 h-4" />
-              </Link>
-            )}
           </div>
         )}
       </section>
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}} />
+
+      {/* HIDE SCROLLBAR */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+
+            .hide-scrollbar {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+          `,
+        }}
+      />
     </div>
   );
 }
