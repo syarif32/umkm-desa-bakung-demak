@@ -79,3 +79,20 @@ export async function signOut() {
   revalidatePath('/', 'layout');
   redirect('/login');
 }
+
+export async function toggleUserActive(userId: string, currentState: boolean) {
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ is_active: !currentState })
+    .eq('id', userId);
+
+  if (error) {
+    console.error('Error toggling user status:', error);
+    return { error: 'Gagal memperbarui status verifikasi warga.' };
+  }
+  
+  revalidatePath('/dashboard/village');
+  return { success: true };
+}

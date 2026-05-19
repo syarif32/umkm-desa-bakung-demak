@@ -42,6 +42,7 @@ export function DashboardSidebar({ userRole, userName, userAvatar }: SidebarProp
       icon: <MapIcon className="w-5 h-5" />,
       show: isAdmin, // Hanya muncul untuk Admin Desa
     },
+    
     {
       label: 'Pengaturan',
       href: '/dashboard/settings',

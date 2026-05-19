@@ -98,6 +98,22 @@ export async function approveTenant(formData: FormData) {
   revalidatePath('/dashboard/umkm');
   revalidatePath('/');
 }
+export async function deleteTenant(tenantId: string) {
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase
+    .from('umkm_tenants')
+    .delete()
+    .eq('id', tenantId);
+
+  if (error) {
+    console.error('Error deleting tenant:', error);
+    return { error: 'Gagal menghapus data UMKM dari sistem.' };
+  }
+
+  revalidatePath('/dashboard/umkm');
+  return { success: true };
+}
 
 export async function rejectTenant(formData: FormData) {
   const supabase = await createSupabaseServerClient();
@@ -109,4 +125,20 @@ export async function rejectTenant(formData: FormData) {
   if (profile?.role !== 'VILLAGE_ADMIN') return { error: 'Bukan admin' };
   await supabase.from('umkm_tenants').update({ status: 'INACTIVE' }).eq('id', tenantId);
   revalidatePath('/dashboard/umkm');
+}
+export async function getStatsOverview() {
+  const supabase = await createSupabaseServerClient();
+
+  const [tenants, products, profiles] = await Promise.all([
+    supabase.from('umkm_tenants').select('status', { count: 'exact' }),
+    supabase.from('umkm_products').select('id', { count: 'exact' }),
+    supabase.from('profiles').select('is_active', { count: 'exact' }).eq('is_active', true)
+  ]);
+
+  return {
+    totalTenants: tenants.count || 0,
+    pendingTenants: tenants.data?.filter(t => t.status === 'PENDING_REVIEW').length || 0,
+    totalProducts: products.count || 0,
+    activeUsers: profiles.count || 0
+  };
 }

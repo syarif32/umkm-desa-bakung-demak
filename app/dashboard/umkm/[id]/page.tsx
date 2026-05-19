@@ -26,7 +26,9 @@ export default async function TenantDashboardDetail({ params }: { params: Promis
             Lihat Halaman Publik <ExternalLinkIcon className="w-3.5 h-3.5" />
           </a>
         )}
+
       </div>
+      
 
       {/* Header Profil Singkat */}
       <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

@@ -5,6 +5,7 @@ import type {
   TenantWithOwner,
   ProductCategory,
 } from '@/types/database';
+import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
@@ -72,4 +73,15 @@ export async function getTenantById(id: string): Promise<UmkmTenant | null> {
     throw new Error('Failed to load tenant.');
   }
   return data;
+}
+export async function updateTenantStatus(tenantId: string, status: 'ACTIVE' | 'INACTIVE') {
+  const supabase = await createSupabaseServerClient();
+  
+  const { error } = await supabase
+    .from('umkm_tenants')
+    .update({ status })
+    .eq('id', tenantId);
+
+  if (error) throw new Error('gagal memperbarui status umkm');
+  revalidatePath('/dashboard/umkm');
 }
