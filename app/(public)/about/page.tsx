@@ -200,7 +200,7 @@ export default async function AboutVillagePage() {
 
                 <p className="text-sm text-gray-600 leading-relaxed">
                   Sistem informasi desa hasil kolaborasi program pendampingan
-                  KKN Universitas Islam Negeri Walisongo Semarang.
+                  KKN Kelompook 03 Universitas Islam Negeri Walisongo Semarang.
                 </p>
               </div>
 

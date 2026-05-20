@@ -70,7 +70,7 @@ export function PublicFooter() {
         <div className="border-t border-gray-800/80 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium">
           <p>© {currentYear} Pemerintah Desa Bakung. Hak cipta dilindungi.</p>
           <p className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 rounded-full border border-gray-800">
-            Dikembangkan dengan <HeartIcon className="w-3.5 h-3.5 text-rose-500 fill-rose-500/20" /> oleh Tim KKN UIN Walisongo
+            Dikembangkan oleh Tim KKN Kelompok 03 UIN Walisongo
           </p>
         </div>
 
