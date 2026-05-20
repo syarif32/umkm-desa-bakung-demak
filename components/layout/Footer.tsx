@@ -51,7 +51,7 @@ export function PublicFooter() {
             </ul>
           </div>
 
-          {/* informasi kontak */}
+         
           <div className="md:col-span-4 space-y-5">
             <h3 className="text-white font-bold tracking-wider text-xs uppercase">Sekretariat</h3>
             <ul className="space-y-4 text-sm">
@@ -66,13 +66,29 @@ export function PublicFooter() {
           
         </div>
 
-        {/* garis bawah & hak cipta */}
-        <div className="border-t border-gray-800/80 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium">
-          <p>© {currentYear} Pemerintah Desa Bakung. Hak cipta dilindungi.</p>
-          <p className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 rounded-full border border-gray-800">
-            Dikembangkan oleh Tim KKN Kelompok 03 UIN Walisongo
-          </p>
-        </div>
+       <div className="border-t border-gray-800/80 pt-8 mt-8">
+  
+  <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+
+    <p className="text-center md:text-left">
+      © {currentYear} Hak cipta dilindungi.
+    </p>
+
+    <div className="text-center">
+      <Link
+        href="https://zaeeon-site.vercel.app/"
+        target="_blank"
+        className="hover:text-amber-500 transition-colors duration-300 font-medium"
+      >
+          Dikembangkan oleh Zaeoon
+      </Link>
+      <span className="mx-2 text-gray-600">bersama</span>
+      <span>
+        KKN Kelompok 03 UIN Walisongo
+      </span>
+    </div>
+  </div>
+</div>
 
       </div>
     </footer>
