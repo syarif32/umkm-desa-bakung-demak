@@ -9,12 +9,11 @@ export function UmkmCard({ tenant }: { tenant: UmkmTenant }) {
   return (
     <Link 
       href={`/umkm/${tenant.slug}`} 
-      className="group block bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+   
+      className="group flex flex-col h-full bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
     >
-     
-      <div className="relative">
-        
-        <div className="relative h-32 bg-amber-200 overflow-hidden rounded-t-3xl z-10">
+      <div className="relative shrink-0">
+        <div className="relative h-32 bg-amber-200 overflow-hidden z-10">
           {tenant.cover_image_url ? (
             <Image 
               src={tenant.cover_image_url} 
@@ -22,7 +21,6 @@ export function UmkmCard({ tenant }: { tenant: UmkmTenant }) {
               fill 
               className="object-cover group-hover:scale-105 transition-transform duration-500" 
               sizes="(max-width: 768px) 100vw, 33vw"
-            
             />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-200" />
@@ -36,7 +34,6 @@ export function UmkmCard({ tenant }: { tenant: UmkmTenant }) {
           </div>
         </div>
         
-    
         <div className="absolute -bottom-6 left-4 z-20">
           <div className="w-16 h-16 rounded-2xl border-4 border-white bg-white overflow-hidden shadow-inner flex items-center justify-center">
             {tenant.logo_url ? (
@@ -53,21 +50,23 @@ export function UmkmCard({ tenant }: { tenant: UmkmTenant }) {
           </div>
         </div>
       </div>
-      <div className="pt-8 p-5 z-10 relative flex-1">
-        <h3 className="font-bold text-gray-900 group-hover:text-amber-600 transition-colors line-clamp-1 mt-6">
+      
+      <div className="pt-8 p-5 z-10 relative flex-1 flex flex-col">
+        <h3 className="font-bold text-gray-900 group-hover:text-amber-600 transition-colors line-clamp-1 mt-2">
           {tenant.business_name}
         </h3>
-        <p className="text-sm text-gray-500 line-clamp-1 mt-1">
+        <p className="text-sm text-gray-500 line-clamp-2 mt-1">
           {tenant.tagline || 'Produk unggulan lokal asli Desa Bakung'}
         </p>
-        <div className="flex items-center gap-4 mt-5 text-xs text-gray-500 font-medium">
+        
+        <div className="flex items-center gap-4 mt-auto pt-5 text-xs text-gray-500 font-medium">
           {tenant.address && (
             <span className="flex items-center gap-1.5 truncate">
               <MapPinIcon className="w-3.5 h-3.5 text-amber-500 shrink-0" /> 
               <span className="truncate">{tenant.address}</span>
             </span>
           )}
-          <span className="flex items-center gap-1.5 shrink-0">
+          <span className="flex items-center gap-1.5 shrink-0 ml-auto">
             <ShoppingBagIcon className="w-3.5 h-3.5 text-amber-500" /> 
             {tenant.product_count} Produk
           </span>

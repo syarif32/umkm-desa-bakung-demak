@@ -112,10 +112,10 @@ export default async function UmkmTenantPage({
           <div className="absolute inset-0 bg-gradient-to-br from-[#ffd6a5] via-[#ff8c42] to-[#d65a00]" />
         )}
 
-  {/* glow tambahan */}
-  <div className="absolute -top-20 -left-20 w-[300px] h-[300px] bg-orange-200/30 blur-3xl rounded-full" />
+        {/* glow tambahan */}
+        <div className="absolute -top-20 -left-20 w-[300px] h-[300px] bg-orange-200/30 blur-3xl rounded-full" />
 
-  <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-amber-200/20 blur-3xl rounded-full" />
+        <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-amber-200/20 blur-3xl rounded-full" />
 
         {/* BADGE */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2">
@@ -273,10 +273,10 @@ export default async function UmkmTenantPage({
                 {(tenant.umkm_products || []).map((product: any) => (
                   <div
                     key={product.id}
-                    className="group rounded-[26px] overflow-hidden bg-white border border-[#ebe7df] hover:border-amber-200 hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col"
+                    className="group rounded-[26px] overflow-hidden bg-white border border-[#ebe7df] hover:border-amber-200 hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col h-full"
                   >
                     
-                    <div className="relative aspect-square bg-[#f6f4ef] overflow-hidden">
+                    <div className="relative aspect-square bg-[#f6f4ef] overflow-hidden shrink-0">
 
                       {product.thumbnail_url ? (
                         <img
@@ -291,41 +291,41 @@ export default async function UmkmTenantPage({
                       )}
                     </div>
 
-                    <div className="p-5 flex flex-col flex-1">
+                   <div className="p-5 flex flex-col flex-grow overflow-hidden w-full">
+  
+  {/* Menggunakan truncate agar jika nama produk panjang, otomatis jadi "..." */}
+  <h3 className="font-bold text-[#2b2b2b] text-lg truncate group-hover:text-amber-700 transition-colors">
+    {product.name}
+  </h3>
 
-                      <h3 className="font-bold text-[#2b2b2b] text-lg line-clamp-1 group-hover:text-amber-700 transition-colors">
-                        {product.name}
-                      </h3>
+  {/* KUNCI PERBAIKAN: flex-wrap dan pembatasan lebar (max-w-full) */}
+  <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 w-full">
+    <span className="text-xl font-black text-amber-700 truncate max-w-full">
+      {new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+      }).format(product.price || 0)}
+    </span>
+    
+    {product.price_unit && (
+      <span className="text-xs text-gray-400 truncate max-w-full">
+        / {product.price_unit}
+      </span>
+    )}
+  </div>
 
-                      <div className="mt-2 flex items-end gap-2">
+  <p className="mt-3 text-sm text-gray-500 leading-relaxed line-clamp-2">
+    {product.description || 'Produk unggulan lokal Desa Bakung.'}
+  </p>
 
-                        <span className="text-xl font-black text-amber-700">
-                          {new Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                            minimumFractionDigits: 0,
-                          }).format(product.price || 0)}
-                        </span>
-
-                        {product.price_unit && (
-                          <span className="text-xs text-gray-400 mb-1">
-                            / {product.price_unit}
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="mt-3 text-sm text-gray-500 leading-relaxed line-clamp-2 flex-1">
-                        {product.description ||
-                          'Produk unggulan lokal Desa Bakung.'}
-                      </p>
-
-                      <div className="pt-5 mt-5 border-t border-[#f1eee8]">
-
-                        <span className="px-3 py-1 rounded-xl bg-[#f6f4ef] text-gray-600 text-[10px] font-bold uppercase tracking-wider">
-                          {product.category || 'Lokal'}
-                        </span>
-                      </div>
-                    </div>
+  <div className="pt-4 mt-auto border-t border-[#f1eee8]">
+    <span className="inline-block px-3 py-1 rounded-xl bg-[#f6f4ef] text-gray-600 text-[10px] font-bold uppercase tracking-wider truncate max-w-full">
+      {product.category || 'Lokal'}
+    </span>
+  </div>
+  
+</div>
                   </div>
                 ))}
               </div>
@@ -454,7 +454,7 @@ export default async function UmkmTenantPage({
                   className="w-full mt-5 rounded-2xl border-[#e3d7c6] text-amber-700 hover:bg-amber-50 font-bold h-12"
                 >
                   <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${coordinates.lat},${coordinates.lng}`}
+                    href={`https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
