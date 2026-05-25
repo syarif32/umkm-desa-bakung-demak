@@ -136,3 +136,7 @@
 header.fixed.top-0.left-0.right-0.z-50.px-4.pt-4 {
     z-index: 10000 !important;
 }
+ .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
