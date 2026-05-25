@@ -56,12 +56,17 @@ export default function RegisterPage() {
             {/* TAMBAHAN: Pilihan Peran Pengguna */}
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700">Daftar Sebagai</label>
-              <div className="mt-1">
-                <select id="role" name="role" required className="block w-full rounded-xl border border-gray-300 px-3 py-2.5 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-amber-500 sm:text-sm bg-white">
-                  <option value="VILLAGE_USER">Warga Biasa / Pembeli</option>
-                  <option value="UMKM_OWNER">Pemilik Usaha (UMKM)</option>
-                </select>
+             {/* Pilihan Peran Pengguna (DIBUAT OTOMATIS SEBAGAI PENJUAL) */}
+            <div>
+              <input type="hidden" name="role" value="UMKM_OWNER" />
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+                <StoreIcon className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-bold text-amber-900">Pendaftaran Akun UMKM</p>
+                  <p className="text-xs text-amber-700 mt-1">Setelah mendaftar, akun Anda akan masuk ke antrean verifikasi Admin Desa sebelum bisa membuat toko.</p>
+                </div>
               </div>
+            </div>
               <p className="text-xs text-gray-500 mt-1.5">
                 *Akun UMKM memerlukan verifikasi admin saat membuat profil toko.
               </p>

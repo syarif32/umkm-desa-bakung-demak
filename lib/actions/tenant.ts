@@ -25,13 +25,13 @@ export type TenantCreateState = {
   message?: string;
   success?: boolean;
 };
-// Di dalam file lib/actions/tenant.ts
 
 export async function createTenant(prevState: any, formData: FormData) {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return { message: 'Sesi tidak valid.' };
+
   const operating_hours = {
     Senin: formData.get('hours_senin') as string || 'Tutup',
     Selasa: formData.get('hours_selasa') as string || 'Tutup',
@@ -77,6 +77,14 @@ export async function createTenant(prevState: any, formData: FormData) {
 
 export async function updateTenant(tenantId: string, updates: TenantUpdate): Promise<{ error?: string }> {
   const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // PROTEKSI KEPEMILIKAN: Hanya pemilik toko yang boleh update
+  const { data: tenant } = await supabase.from('umkm_tenants').select('owner_id').eq('id', tenantId).single();
+  if (tenant?.owner_id !== user?.id) {
+    return { error: 'Akses ditolak. Anda tidak memiliki izin mengedit UMKM ini.' };
+  }
+
   const { error } = await supabase.from('umkm_tenants').update(updates).eq('id', tenantId);
 
   if (error) return { error: `Gagal memperbarui data: ${error.message}` };
@@ -85,6 +93,7 @@ export async function updateTenant(tenantId: string, updates: TenantUpdate): Pro
   revalidatePath(`/umkm/${updates.slug ?? ''}`);
   return {};
 }
+
 // APPROVAL ADMIN 
 export async function approveTenant(formData: FormData) {
   const supabase = await createSupabaseServerClient();
@@ -98,13 +107,33 @@ export async function approveTenant(formData: FormData) {
   revalidatePath('/dashboard/umkm');
   revalidatePath('/');
 }
+
+export async function rejectTenant(formData: FormData) {
+  const supabase = await createSupabaseServerClient();
+  const tenantId = formData.get('tenantId') as string;
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
+  
+  if (profile?.role !== 'VILLAGE_ADMIN') return { error: 'Bukan admin' };
+
+  await supabase.from('umkm_tenants').update({ status: 'INACTIVE' }).eq('id', tenantId);
+  revalidatePath('/dashboard/umkm');
+}
+
 export async function deleteTenant(tenantId: string) {
   const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  const { error } = await supabase
-    .from('umkm_tenants')
-    .delete()
-    .eq('id', tenantId);
+  // PROTEKSI KEPEMILIKAN: Admin atau Pemilik Asli yang boleh hapus
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
+  const { data: tenant } = await supabase.from('umkm_tenants').select('owner_id').eq('id', tenantId).single();
+
+  if (profile?.role !== 'VILLAGE_ADMIN' && tenant?.owner_id !== user?.id) {
+    return { error: 'Akses ditolak.' };
+  }
+
+  const { error } = await supabase.from('umkm_tenants').delete().eq('id', tenantId);
 
   if (error) {
     console.error('Error deleting tenant:', error);
@@ -115,17 +144,6 @@ export async function deleteTenant(tenantId: string) {
   return { success: true };
 }
 
-export async function rejectTenant(formData: FormData) {
-  const supabase = await createSupabaseServerClient();
-  const tenantId = formData.get('tenantId') as string;
-
-  const { data: { user } } = await supabase.auth.getUser();
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
-  
-  if (profile?.role !== 'VILLAGE_ADMIN') return { error: 'Bukan admin' };
-  await supabase.from('umkm_tenants').update({ status: 'INACTIVE' }).eq('id', tenantId);
-  revalidatePath('/dashboard/umkm');
-}
 export async function getStatsOverview() {
   const supabase = await createSupabaseServerClient();
 

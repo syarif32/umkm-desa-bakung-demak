@@ -12,15 +12,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   if (!user) redirect('/login');
 
-  // Ambil data profil termasuk role dan status aktif
   const { data: profile } = await supabase
     .from('profiles')
     .select('role, full_name, is_active')
     .eq('id', user.id)
     .single();
 
-  // 1. PROTEKSI UTAMA: Jika user belum diaktivasi oleh Admin
-  if (profile && !profile.is_active) {
+  // PROTEKSI UTAMA: Jika user adalah Pemilik UMKM dan belum diaktivasi oleh Admin
+  if (profile?.role === 'UMKM_OWNER' && !profile.is_active) {
     return (
       <div className="min-h-screen bg-amber-50/60 flex flex-col items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-[2.5rem] border border-amber-100 p-8 text-center shadow-xl shadow-amber-900/5 relative overflow-hidden">
@@ -54,12 +53,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
     );
   }
 
-  // 2. Jika lolos verifikasi, render dashboard normal seperti biasa
+  // Jika lolos verifikasi (Atau jika dia Admin), render dashboard normal
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <DashboardSidebar userRole={profile?.role} userName={profile?.full_name || ''} />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <DashboardTopbar userName={profile?.full_name || ''} userRole={profile?.role || 'VILLAGE_USER'} />
+        <DashboardTopbar userName={profile?.full_name || ''} userRole={profile?.role || 'USER'} />
         <main className="flex-1 overflow-y-auto p-6 md:p-8">
           {children}
         </main>
