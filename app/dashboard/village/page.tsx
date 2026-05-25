@@ -115,6 +115,33 @@ export default function VillageInfoPage() {
             </div>
           </div>
 
+          <div className="sm:col-span-2 pt-4">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Sejarah / Asal Usul Desa</label>
+              <textarea name="history" rows={5} defaultValue={data?.history} placeholder="Ceritakan sejarah singkat atau asal mula desa..." className="block w-full rounded-xl border-gray-300 px-3 py-2 border focus:border-amber-500 focus:ring-1 focus:ring-amber-500 resize-none" />
+            </div>
+
+            <div className="sm:col-span-2 mt-2">
+              <h3 className="font-bold text-gray-900 border-b border-gray-100 pb-2 mb-4">Batas Wilayah Geografis</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Batas Utara</label>
+                  <input type="text" name="geo_north" defaultValue={data?.geo_north} placeholder="Contoh: Desa Mijen" className="block w-full rounded-xl border-gray-300 px-3 py-2 border focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Batas Timur</label>
+                  <input type="text" name="geo_east" defaultValue={data?.geo_east} placeholder="Contoh: Desa Jatirejo" className="block w-full rounded-xl border-gray-300 px-3 py-2 border focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Batas Selatan</label>
+                  <input type="text" name="geo_south" defaultValue={data?.geo_south} placeholder="Contoh: Ngelowetan" className="block w-full rounded-xl border-gray-300 px-3 py-2 border focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Batas Barat</label>
+                  <input type="text" name="geo_west" defaultValue={data?.geo_west} placeholder="Contoh: Mlaten" className="block w-full rounded-xl border-gray-300 px-3 py-2 border focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+              </div>
+            </div>
+
           <div className="pt-4 flex justify-end">
             <Button type="submit" disabled={isSaving} className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl px-6">
               {isSaving ? 'Menyimpan...' : <><SaveIcon className="w-4 h-4 mr-2" /> Simpan Pengaturan</>}

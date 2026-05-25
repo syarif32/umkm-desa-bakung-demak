@@ -70,11 +70,8 @@ export default async function AboutVillagePage() {
                   Asal Usul Desa Bakung
                 </h2>
 
-                <p className="text-gray-600 leading-relaxed text-[15px]">
-                  Nama “Bakung” berasal dari hamparan bunga Bakung yang dahulu tumbuh subur di wilayah ini.
-                  Meskipun lahan telah dibuka oleh para pendahulu untuk pemukiman,
-                  bunga tersebut tetap tumbuh dengan kuat dan indah.
-                  Filosofi ketahanan dan kesuburan itulah yang menjadi identitas Desa Bakung hingga saat ini.
+                <p className="text-gray-600 leading-relaxed text-[15px] whitespace-pre-wrap">
+                  {villageInfo?.history || 'Nama “Bakung” berasal dari hamparan bunga Bakung yang dahulu tumbuh subur di wilayah ini... (Data sejarah belum diatur oleh admin).'}
                 </p>
 
               </div>
@@ -137,22 +134,22 @@ export default async function AboutVillagePage() {
                 </div>
 
                 <div className="space-y-4">
-
                   <GeoItem
                     title="Sebelah Utara"
-                    value="Desa Mijen"
+                    value={villageInfo?.geo_north || 'Desa Mijen'}
                   />
-
                   <GeoItem
                     title="Sebelah Timur"
-                    value="Desa Jatirejo"
+                    value={villageInfo?.geo_east || 'Desa Jatirejo'}
                   />
-
                   <GeoItem
-                    title="Selatan & Barat"
-                    value="Ngelowetan & Mlaten"
+                    title="Sebelah Selatan"
+                    value={villageInfo?.geo_south || 'Ngelowetan'}
                   />
-
+                  <GeoItem
+                    title="Sebelah Barat"
+                    value={villageInfo?.geo_west || 'Mlaten'}
+                  />
                 </div>
               </div>
             </div>

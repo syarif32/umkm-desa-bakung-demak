@@ -1,14 +1,38 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createTenant } from '@/lib/actions/tenant';
+import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { LocationPicker } from '@/components/dashboard/LocationPicker';
 import { ArrowLeftIcon, StoreIcon, MapPinIcon, ClockIcon } from 'lucide-react';
 
 export default function NewUmkmPage() {
   const [state, formAction, isPending] = useActionState(createTenant, { message: '' } as any);
+  
+  // State untuk menyimpan nama otomatis dari database
+  const [ownerName, setOwnerName] = useState('');
+  const supabase = createSupabaseBrowserClient();
+
+  // Tarik data profil saat halaman dimuat
+  useEffect(() => {
+    async function fetchUserProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', user.id)
+          .single();
+          
+        if (profile?.full_name) {
+          setOwnerName(profile.full_name);
+        }
+      }
+    }
+    fetchUserProfile();
+  }, [supabase]);
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 pb-20">
@@ -47,7 +71,16 @@ export default function NewUmkmPage() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nama Pemilik <span className="text-red-500">*</span></label>
-                <input type="text" name="owner_name" required placeholder="Contoh: Ibu Siti" className="block w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                {/* Kolom ini sekarang otomatis terisi tapi tetap bisa diedit jika nama pemilik usahanya berbeda */}
+                <input 
+                  type="text" 
+                  name="owner_name" 
+                  required 
+                  value={ownerName}
+                  onChange={(e) => setOwnerName(e.target.value)}
+                  placeholder="Contoh: Ibu Siti" 
+                  className="block w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500" 
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Kategori Usaha <span className="text-red-500">*</span></label>
