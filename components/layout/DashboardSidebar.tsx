@@ -10,7 +10,8 @@ import {
   MapIcon, 
   SettingsIcon, 
   LogOutIcon,
-  UserIcon
+  UserIcon,
+  ShieldCheckIcon
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -35,6 +36,12 @@ export function DashboardSidebar({ userRole, userName, userAvatar }: SidebarProp
       href: '/dashboard/umkm',
       icon: <StoreIcon className="w-5 h-5" />,
       show: true,
+    },
+    {
+      label: 'Verifikasi Warga',
+      href: '/dashboard/users',
+      icon: <ShieldCheckIcon className="w-5 h-5" />,
+      show: isAdmin, 
     },
     {
       label: 'Informasi Desa',

@@ -26,9 +26,11 @@ export async function signUpWithEmail(prevState: any, formData: FormData) {
   const password = formData.get('password') as string;
   const fullName = formData.get('full_name') as string;
   const role     = formData.get('role') as string; 
+
   if (!email || !password || !fullName || !role) {
     return { error: 'Semua kolom wajib diisi.' };
   }
+  const is_active_status = role === 'VILLAGE_USER' ? true : false;
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.signUp({ 
@@ -37,7 +39,7 @@ export async function signUpWithEmail(prevState: any, formData: FormData) {
     options: {
       data: {
         full_name: fullName,
-        role: role, // 
+        role: role, 
       }
     }
   });
@@ -49,9 +51,12 @@ export async function signUpWithEmail(prevState: any, formData: FormData) {
     return { error: `Gagal mendaftar: ${error.message}` };
   }
 
-  // 
+  // UPDATE PROFIL SETELAH USER BERHASIL DIBUAT
   if (data?.user) {
-    await supabase.from('profiles').update({ role: role }).eq('id', data.user.id);
+    await supabase.from('profiles').update({ 
+      role: role,
+      is_active: is_active_status // MASUKKAN STATUS VERIFIKASI KE SINI
+    }).eq('id', data.user.id);
   }
 
   revalidatePath('/', 'layout');

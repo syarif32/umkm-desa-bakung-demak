@@ -1,5 +1,6 @@
 
-export type UserRole = 'VILLAGE_ADMIN' | 'UMKM_OWNER';
+
+export type UserRole = 'VILLAGE_ADMIN' | 'UMKM_OWNER' | 'VILLAGE_USER';
 
 export type UmkmStatus = 'ACTIVE' | 'INACTIVE' | 'PENDING_REVIEW';
 
