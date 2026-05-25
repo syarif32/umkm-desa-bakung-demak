@@ -4,7 +4,6 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
-
 export async function signInWithEmail(prevState: any, formData: FormData) {
   const email    = formData.get('email') as string;
   const password = formData.get('password') as string;
@@ -19,7 +18,6 @@ export async function signInWithEmail(prevState: any, formData: FormData) {
   revalidatePath('/', 'layout');
   redirect('/dashboard');
 }
-
 
 export async function signUpWithEmail(prevState: any, formData: FormData) {
   const email    = formData.get('email') as string;
@@ -51,12 +49,21 @@ export async function signUpWithEmail(prevState: any, formData: FormData) {
     return { error: `Gagal mendaftar: ${error.message}` };
   }
 
-  // UPDATE PROFIL SETELAH USER BERHASIL DIBUAT
+  // UPDATE PROFIL MENGGUNAKAN UPSERT (Anti Race-Condition)
   if (data?.user) {
-    await supabase.from('profiles').update({ 
+    const { error: profileError } = await supabase.from('profiles').upsert({ 
+      id: data.user.id,
+      full_name: fullName,
+      email: email, 
       role: role,
-      is_active: is_active_status // MASUKKAN STATUS VERIFIKASI KE SINI
-    }).eq('id', data.user.id);
+      is_active: is_active_status
+    }, {
+      onConflict: 'id' // Timpa data bawaan trigger jika ID sudah ada
+    });
+
+    if (profileError) {
+      console.error("Gagal menyimpan data profil lengkap:", profileError);
+    }
   }
 
   revalidatePath('/', 'layout');
