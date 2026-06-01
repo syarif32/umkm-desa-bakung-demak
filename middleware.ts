@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
       .eq('id', session.user.id)
       .single();
 
-    if (!profile || !profile.is_active) {
+    if (!profile) {
       await supabase.auth.signOut();
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('error', 'account_suspended');
