@@ -51,11 +51,12 @@ export function DashboardSidebar({ userRole, userName, userAvatar }: SidebarProp
     },
     
     {
-      label: 'Pengaturan',
-      href: '/dashboard/settings',
-      icon: <SettingsIcon className="w-5 h-5" />,
-      show: true,
-    },
+  label: 'Pengaturan (Maintenance)',
+  href: '#',
+  icon: <SettingsIcon className="w-5 h-5" />,
+  show: true,
+  disabled: true,
+},
   ];
 
   return (
