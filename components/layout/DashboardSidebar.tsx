@@ -37,11 +37,18 @@ export function DashboardSidebar({ userRole, userName, userAvatar }: SidebarProp
       icon: <StoreIcon className="w-5 h-5" />,
       show: true,
     },
+    // {
+    //   label: 'Verifikasi Warga',
+    //   href: '/dashboard/users',
+    //   icon: <ShieldCheckIcon className="w-5 h-5" />,
+    //   show: isAdmin, 
+    // },
     {
-      label: 'Verifikasi Warga',
-      href: '/dashboard/users',
+      label: 'Verifikasi Warga (Fitur ini masih dalam tahap pengembangan)',
+      href: '#',
       icon: <ShieldCheckIcon className="w-5 h-5" />,
       show: isAdmin, 
+      disabled: true, // Fitur ini masih dalam tahap pengembangan
     },
     {
       label: 'Informasi Desa',

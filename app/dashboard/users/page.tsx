@@ -138,6 +138,7 @@ export default async function VillageManagementPage({
                       await toggleUserActive(user.id, user.is_active);
                     }}>
                       <Button 
+                        type="submit"
                         size="default" 
                         variant={user.is_active ? "outline" : "default"}
                         className={`rounded-xl h-11 px-5 text-xs font-bold transition-all ${
