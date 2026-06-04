@@ -5,6 +5,7 @@ import { getTenantBySlug } from '@/lib/queries/tenants';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TenantContactBlock } from '@/components/public/umkm-page/TenantContactBlock';
+import { ProductCard } from '@/components/public/umkm-page/ProductCard'; // <-- PENAMBAHAN 1: Import komponen ProductCard
 
 import type {
   SocialLinks,
@@ -270,64 +271,11 @@ export default async function UmkmTenantPage({
             {hasProducts ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
 
+                {/* PENAMBAHAN 2: Ganti blok HTML produk dengan komponen ProductCard yang jauh lebih rapi */}
                 {(tenant.umkm_products || []).map((product: any) => (
-                  <div
-                    key={product.id}
-                    className="group rounded-[26px] overflow-hidden bg-white border border-[#ebe7df] hover:border-amber-200 hover:shadow-xl transition-all duration-500 hover:-translate-y-1.5 flex flex-col h-full"
-                  >
-                    
-                    <div className="relative aspect-square bg-[#f6f4ef] overflow-hidden shrink-0">
-
-                      {product.thumbnail_url ? (
-                        <img
-                          src={product.thumbnail_url}
-                          alt={product.name}
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-                          <ShoppingBagIcon className="w-14 h-14" />
-                        </div>
-                      )}
-                    </div>
-
-                   <div className="p-5 flex flex-col flex-grow overflow-hidden w-full">
-  
-  {/* Menggunakan truncate agar jika nama produk panjang, otomatis jadi "..." */}
-  <h3 className="font-bold text-[#2b2b2b] text-lg truncate group-hover:text-amber-700 transition-colors">
-    {product.name}
-  </h3>
-
-  {/* KUNCI PERBAIKAN: flex-wrap dan pembatasan lebar (max-w-full) */}
-  <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 w-full">
-    <span className="text-xl font-black text-amber-700 truncate max-w-full">
-      {new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0,
-      }).format(product.price || 0)}
-    </span>
-    
-    {product.price_unit && (
-      <span className="text-xs text-gray-400 truncate max-w-full">
-        / {product.price_unit}
-      </span>
-    )}
-  </div>
-
-  <p className="mt-3 text-sm text-gray-500 leading-relaxed line-clamp-2">
-    {product.description || 'Produk unggulan lokal Desa Bakung.'}
-  </p>
-
-  <div className="pt-4 mt-auto border-t border-[#f1eee8]">
-    <span className="inline-block px-3 py-1 rounded-xl bg-[#f6f4ef] text-gray-600 text-[10px] font-bold uppercase tracking-wider truncate max-w-full">
-      {product.category || 'Lokal'}
-    </span>
-  </div>
-  
-</div>
-                  </div>
+                  <ProductCard key={product.id} product={product} />
                 ))}
+
               </div>
             ) : (
               <div className="py-20 text-center bg-[#f8f7f4] rounded-[28px] border-2 border-dashed border-[#e6e1d8]">
